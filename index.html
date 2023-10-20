@@ -3,53 +3,131 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Greeting and Clock</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             background-color: #f0f0f0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-        }
-
-        .timer {
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             text-align: center;
-            padding: 20px;
         }
 
-        .timer h1 {
-            font-size: 2rem;
-            margin: 0;
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .widget {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .greet {
+            font-size: 24px;
+        }
+
+        .date {
+            font-size: 18px;
+        }
+
+        .clock {
+            font-size: 36px;
         }
 
         .time {
-            font-size: 3rem;
+            display: inline-block;
+        }
+
+        .colon {
+            display: inline-block;
+            margin: 0 5px;
         }
     </style>
 </head>
 <body>
-    <div class="timer">
-        <h1>Current Time</h1>
-        <div class="time" id="clock">00:00:00</div>
+<div class="container">
+    <div class="widget">
+        <div class="greet" id="greet">Good Evening</div>
+        <div class="date" id="date">Thursday, October 19 2023</div>
+        <div class="clock">
+            <div class="time" id="hour">10</div>
+            <div class="colon">:</div>
+            <div class="time" id="min">00</div>
+            <div class="colon">:</div>
+            <div class="time" id="sec">01 pm</div>
+        </div>
     </div>
+</div>
 
-    <script>
-        function updateTime() {
-            const clock = document.getElementById('clock');
-            const now = new Date();
-            const hours = String(now.getHours()).padStart(2, '0');
-            const minutes = String(now.getMinutes()).padStart(2, '0');
-            const seconds = String(now.getSeconds()).padStart(2, '0');
-            clock.textContent = `${hours}:${minutes}:${seconds}`;
+<script>
+    function displayGreetings() {
+        const today = new Date();
+        const hours = today.getHours();
+        let greet = "";
+        if (hours < 12) {
+            greet = 'Good Morning';
+        } else if (hours >= 12 && hours <= 17) {
+            greet = 'Good Afternoon';
+        } else if (hours >= 17 && hours <= 24) {
+            greet = 'Good Evening';
         }
+        document.getElementById('greet').textContent = greet;
+    }
 
-        updateTime();
-        setInterval(updateTime, 1000);
-    </script>
+    function displayDate() {
+        const today = new Date();
+        const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        const dayName = days[today.getDay()];
+        const monthName = monthNames[today.getMonth()];
+        const date = today.getDate();
+        const year = today.getFullYear();
+        document.getElementById('date').textContent = dayName + ", " + monthName + " " + date + " " + year;
+    }
+
+    function displayClock() {
+        const today = new Date();
+        const hour = padZeros(twelveHour(today.getHours()));
+        const minutes = padZeros(today.getMinutes());
+        let seconds = padZeros(today.getSeconds());
+        if (today.getHours() >= 12) {
+            seconds += " pm";
+        } else {
+            seconds += " am";
+        }
+        document.getElementById('hour').textContent = hour;
+        document.getElementById('min').textContent = minutes;
+        document.getElementById('sec').textContent = seconds;
+    }
+
+    function twelveHour(hour) {
+        if (hour > 12) {
+            return hour - 12;
+        } else if (hour === 0) {
+            return 12;
+        } else {
+            return hour;
+        }
+    }
+
+    function padZeros(num) {
+        if (num < 10) {
+            return '0' + num;
+        }
+        return num;
+    }
+
+    function displayWidget() {
+        displayGreetings();
+        displayDate();
+        displayClock();
+        setTimeout(displayWidget, 500);
+    }
+
+    displayWidget();
+</script>
 </body>
 </html>
