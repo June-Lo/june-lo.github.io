@@ -4,9 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <div>HELLLO</div>
 </head>
 <body>
-    
+    <div id="timer">00:00</div>
+
+    <script>
+        // JavaScript for the timer
+        var timerElement = document.getElementById("timer");
+        var minutes = 0;
+        var seconds = 0;
+
+        function updateTimer() {
+            seconds++;
+            if (seconds == 60) {
+                seconds = 0;
+                minutes++;
+            }
+
+            var minutesStr = minutes < 10 ? "0" + minutes : minutes;
+            var secondsStr = seconds < 10 ? "0" + seconds : seconds;
+
+            timerElement.textContent = minutesStr + ":" + secondsStr;
+        }
+
+        setInterval(updateTimer, 1000); // Update the timer every 1 second
+    </script>
 </body>
 </html>
