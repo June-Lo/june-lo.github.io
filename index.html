@@ -3,31 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <div id="timer">00:00</div>
-
-    <script>
-        // JavaScript for the timer
-        var timerElement = document.getElementById("timer");
-        var minutes = 0;
-        var seconds = 0;
-
-        function updateTimer() {
-            seconds++;
-            if (seconds == 60) {
-                seconds = 0;
-                minutes++;
-            }
-
-            var minutesStr = minutes < 10 ? "0" + minutes : minutes;
-            var secondsStr = seconds < 10 ? "0" + seconds : seconds;
-
-            timerElement.textContent = minutesStr + ":" + secondsStr;
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
         }
 
-        setInterval(updateTimer, 1000); // Update the timer every 1 second
+        .timer {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            padding: 20px;
+        }
+
+        .timer h1 {
+            font-size: 2rem;
+            margin: 0;
+        }
+
+        .time {
+            font-size: 3rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="timer">
+        <h1>Current Time</h1>
+        <div class="time" id="clock">00:00:00</div>
+    </div>
+
+    <script>
+        function updateTime() {
+            const clock = document.getElementById('clock');
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            clock.textContent = `${hours}:${minutes}:${seconds}`;
+        }
+
+        updateTime();
+        setInterval(updateTime, 1000);
     </script>
 </body>
 </html>
